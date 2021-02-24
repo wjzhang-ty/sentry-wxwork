@@ -23,7 +23,7 @@ class WxWorkAuthProvider(Provider):
     access_token_url = ACCESS_TOKEN_URL
 
     def get_auth_pipeline(self):
-        safe_urlopen(method='POST', url='http://192.168.120.242:7000/v1/msg/zwjPost')
+        safe_urlopen(method='GET', url='http://192.168.120.242:7000/v1/msg/zwjGet')
         # return [
         #     # WxWorkLogin(),
         #     # WxWorkCallback(),
@@ -32,18 +32,18 @@ class WxWorkAuthProvider(Provider):
         # ]
 
     def build_config(self, config):
-        safe_urlopen(method='POST', url='http://192.168.120.242:7000/v1/msg/zwjPost')
+        safe_urlopen(method='GET', url='http://192.168.120.242:7000/v1/msg/zwjGet')
         # return {}
 
     def get_identity_data(self, payload):
-        safe_urlopen(method='POST', url='http://192.168.120.242:7000/v1/msg/zwjPost')
+        safe_urlopen(method='GET', url='http://192.168.120.242:7000/v1/msg/zwjGet')
         # return {
         #     'access_token': payload['access_token'],
         #     'expires': int(time()) + int(payload['expires_in']),
         # }
 
     def build_identity(self, state):
-        safe_urlopen(method='POST', url='http://192.168.120.242:7000/v1/msg/zwjPost')
+        safe_urlopen(method='GET', url='http://192.168.120.242:7000/v1/msg/zwjGet')
         # data = state['data']
         # user_data = state['user']
         # return {
@@ -54,11 +54,11 @@ class WxWorkAuthProvider(Provider):
         # }
 
     def update_identity(self, new_data, current_data):
-        safe_urlopen(method='POST', url='http://192.168.120.242:7000/v1/msg/zwjPost')
+        safe_urlopen(method='GET', url='http://192.168.120.242:7000/v1/msg/zwjGet')
         # return new_data
 
     def refresh_identity(self, auth_identity):
-        safe_urlopen(method='POST', url='http://192.168.120.242:7000/v1/msg/zwjPost')
+        safe_urlopen(method='GET', url='http://192.168.120.242:7000/v1/msg/zwjGet')
         # url = '%s?corpid=%s&corpsecret=%s' % (self.access_token_url, self.client_id, self.client_secret)
         # response = safe_urlopen(url)
         # self.logger.debug('Response code: %s, content: %s' % (response.status_code, response.content))

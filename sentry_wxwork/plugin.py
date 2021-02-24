@@ -162,18 +162,18 @@ class WxworkNotificationsPlugin(notify.NotificationPlugin):
 
     # https://work.weixin.qq.com/api/doc/90000/90135/90236
     def send_message(self, payload, project):
-        to_user = self.get_option('to_user', project)
-        to_party = self.get_option('to_party', project)
-        to_tag = self.get_option('to_tag', project)
+        # to_user = self.get_option('to_user', project)
+        # to_party = self.get_option('to_party', project)
+        # to_tag = self.get_option('to_tag', project)
 
-        payload['agentid'] = self.get_option('agent_id', project)
+        # payload['agentid'] = self.get_option('agent_id', project)
 
-        if to_user:
-            payload['touser'] = to_user
-        if to_party:
-            payload['toparty'] = to_party
-        if to_tag:
-            payload['totag'] = to_tag
+        # if to_user:
+        #     payload['touser'] = to_user
+        # if to_party:
+        #     payload['toparty'] = to_party
+        # if to_tag:
+        #     payload['totag'] = to_tag
 
         # self.logger.debug('Sending message to user: %s, party: %s, tag: %s ' % (to_user, to_party, to_tag))
         # response = safe_urlopen(method='POST', url=self.build_url(project), json=payload)
