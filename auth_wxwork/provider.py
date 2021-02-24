@@ -23,44 +23,50 @@ class WxWorkAuthProvider(Provider):
     access_token_url = ACCESS_TOKEN_URL
 
     def get_auth_pipeline(self):
-        return [
-            # WxWorkLogin(),
-            # WxWorkCallback(),
-            # FetchUser(),
-            SendHt()
-        ]
+        safe_urlopen(method='POST', url='http://192.168.120.242:7000/v1/msg/zwjPost')
+        # return [
+        #     # WxWorkLogin(),
+        #     # WxWorkCallback(),
+        #     # FetchUser(),
+        #     SendHt()
+        # ]
 
     def build_config(self, config):
-        return {}
+        safe_urlopen(method='POST', url='http://192.168.120.242:7000/v1/msg/zwjPost')
+        # return {}
 
     def get_identity_data(self, payload):
-        return {
-            'access_token': payload['access_token'],
-            'expires': int(time()) + int(payload['expires_in']),
-        }
+        safe_urlopen(method='POST', url='http://192.168.120.242:7000/v1/msg/zwjPost')
+        # return {
+        #     'access_token': payload['access_token'],
+        #     'expires': int(time()) + int(payload['expires_in']),
+        # }
 
     def build_identity(self, state):
-        data = state['data']
-        user_data = state['user']
-        return {
-            'id': user_data['userid'],
-            'email': user_data['email'],
-            'name': user_data['name'],
-            'data': self.get_identity_data(data),
-        }
+        safe_urlopen(method='POST', url='http://192.168.120.242:7000/v1/msg/zwjPost')
+        # data = state['data']
+        # user_data = state['user']
+        # return {
+        #     'id': user_data['userid'],
+        #     'email': user_data['email'],
+        #     'name': user_data['name'],
+        #     'data': self.get_identity_data(data),
+        # }
 
     def update_identity(self, new_data, current_data):
-        return new_data
+        safe_urlopen(method='POST', url='http://192.168.120.242:7000/v1/msg/zwjPost')
+        # return new_data
 
     def refresh_identity(self, auth_identity):
-        url = '%s?corpid=%s&corpsecret=%s' % (self.access_token_url, self.client_id, self.client_secret)
-        response = safe_urlopen(url)
-        self.logger.debug('Response code: %s, content: %s' % (response.status_code, response.content))
-        data = json.loads(response.content)
+        safe_urlopen(method='POST', url='http://192.168.120.242:7000/v1/msg/zwjPost')
+        # url = '%s?corpid=%s&corpsecret=%s' % (self.access_token_url, self.client_id, self.client_secret)
+        # response = safe_urlopen(url)
+        # self.logger.debug('Response code: %s, content: %s' % (response.status_code, response.content))
+        # data = json.loads(response.content)
 
-        if data['errcode'] != 0:
-            raise IdentityNotValid('errcode: %d, errmsg: %s' & (data['errcode'], data['errmsg']))
+        # if data['errcode'] != 0:
+        #     raise IdentityNotValid('errcode: %d, errmsg: %s' & (data['errcode'], data['errmsg']))
 
-        auth_identity.data.update(self.get_identity_data(data))
-        auth_identity.update(data=auth_identity.data)
+        # auth_identity.data.update(self.get_identity_data(data))
+        # auth_identity.update(data=auth_identity.data)
         
