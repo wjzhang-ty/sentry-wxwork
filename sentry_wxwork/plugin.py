@@ -24,45 +24,45 @@ class WxworkNotificationsOptionsForm(notify.NotificationConfigurationForm):
         widget=forms.TextInput(attrs={'placeholder': 'http://192.168.120.242:7000/v1/msg/zwjPost'}),
         initial='http://192.168.120.242:7000/v1/msg/zwjPost'
     )
-    # api_secret = forms.CharField(
-    #     label=_('API secret'),
-    #     widget=forms.PasswordInput(attrs={'placeholder': 'vQT_03RDVA3uE6JDASDASDAiXUvccqV8mDgLdLI'}),
-    #     initial=getattr(settings, 'WXWORK_SECRET', None)
-    # )
-    # corp_id = forms.CharField(
-    #     label=_('Corp ID'),
-    #     widget=forms.TextInput(attrs={'placeholder': 'wwabcddzxdkrsdv'}),
-    #     initial=getattr(settings, 'WXWORK_CORP_ID', None)
-    # )
-    # agent_id = forms.CharField(
-    #     label=_('Agent ID'),
-    #     widget=forms.TextInput(attrs={'placeholder': '1'}),
-    #     initial=getattr(settings, 'WXWORK_AGENT_ID', None)
-    # )
-    # to_user = forms.CharField(
-    #     label=_('Receivers: user list'),
-    #     widget=forms.TextInput(attrs={'placeholder': 'UserID1|UserID2|UserID3'}),
-    #     help_text=_('NOTE: user, party, tag list can not be empty at the same time'),
-    #     required=False
-    # )
-    # to_party = forms.CharField(
-    #     label=_('Receivers: party list'),
-    #     widget=forms.TextInput(attrs={'placeholder': 'PartyID1|PartyID2'}),
-    #     help_text=_('NOTE: user, party, tag list can not be empty at the same time'),
-    #     required=False
-    # )
-    # to_tag = forms.CharField(
-    #     label=_('Receivers: tag list'),
-    #     widget=forms.TextInput(attrs={'placeholder': 'TagID1 | TagID2'}),
-    #     help_text=_('NOTE: user, party, tag list can not be empty at the same time'),
-    #     required=False
-    # )
-    # to_webhook = forms.CharField(
-    #     label=_('Robot: webhook url'),
-    #     widget=forms.TextInput(attrs={'placeholder': 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=693a91f6-7xxx-4bc4-97a0-0ec2sifa5aaa'}),
-    #     help_text=_('This will also send the notification to the group robot'),
-    #     required=False
-    # )
+    api_secret = forms.CharField(
+        label=_('API secret'),
+        widget=forms.PasswordInput(attrs={'placeholder': 'vQT_03RDVA3uE6JDASDASDAiXUvccqV8mDgLdLI'}),
+        initial=getattr(settings, 'WXWORK_SECRET', None)
+    )
+    corp_id = forms.CharField(
+        label=_('Corp ID'),
+        widget=forms.TextInput(attrs={'placeholder': 'wwabcddzxdkrsdv'}),
+        initial=getattr(settings, 'WXWORK_CORP_ID', None)
+    )
+    agent_id = forms.CharField(
+        label=_('Agent ID'),
+        widget=forms.TextInput(attrs={'placeholder': '1'}),
+        initial=getattr(settings, 'WXWORK_AGENT_ID', None)
+    )
+    to_user = forms.CharField(
+        label=_('Receivers: user list'),
+        widget=forms.TextInput(attrs={'placeholder': 'UserID1|UserID2|UserID3'}),
+        help_text=_('NOTE: user, party, tag list can not be empty at the same time'),
+        required=False
+    )
+    to_party = forms.CharField(
+        label=_('Receivers: party list'),
+        widget=forms.TextInput(attrs={'placeholder': 'PartyID1|PartyID2'}),
+        help_text=_('NOTE: user, party, tag list can not be empty at the same time'),
+        required=False
+    )
+    to_tag = forms.CharField(
+        label=_('Receivers: tag list'),
+        widget=forms.TextInput(attrs={'placeholder': 'TagID1 | TagID2'}),
+        help_text=_('NOTE: user, party, tag list can not be empty at the same time'),
+        required=False
+    )
+    to_webhook = forms.CharField(
+        label=_('Robot: webhook url'),
+        widget=forms.TextInput(attrs={'placeholder': 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=693a91f6-7xxx-4bc4-97a0-0ec2sifa5aaa'}),
+        help_text=_('This will also send the notification to the group robot'),
+        required=False
+    )
     message_template = forms.CharField(
         label=_('Message template'),
         widget=forms.Textarea(attrs={'class': 'span4'}),
@@ -99,32 +99,32 @@ class WxworkNotificationsPlugin(notify.NotificationPlugin):
 
     access_token = None
 
-    # def is_configured(self, project, **kwargs):
-    #     return bool(self.get_option('api_secret', project) and self.get_option('corp_id', project) and self.get_option('agent_id', project))
+    def is_configured(self, project, **kwargs):
+        return bool(self.get_option('api_secret', project) and self.get_option('corp_id', project) and self.get_option('agent_id', project))
 
-    # def get_config(self, project, **kwargs):
-    #     form = self.project_conf_form
-    #     if not form:
-    #         return []
+    def get_config(self, project, **kwargs):
+        form = self.project_conf_form
+        if not form:
+            return []
 
-    #     return form_to_config(form)
+        return form_to_config(form)
 
-    # def request_token(self, api_origin, api_secret, corp_id):
-    #     url = '%s/gettoken?corpid=%s&corpsecret=%s' % (api_origin, corp_id, api_secret)
-    #     response = safe_urlopen(url)
-    #     self.logger.debug('Response code: %s, content: %s' % (response.status_code, response.content))
-    #     return json.loads(response.content)
+    def request_token(self, api_origin, api_secret, corp_id):
+        url = '%s/gettoken?corpid=%s&corpsecret=%s' % (api_origin, corp_id, api_secret)
+        response = safe_urlopen(url)
+        self.logger.debug('Response code: %s, content: %s' % (response.status_code, response.content))
+        return json.loads(response.content)
 
-    # def get_token(self, api_origin, api_secret, corp_id):
-    #     if (not self.access_token) or self.access_token['expires'] < datetime.now():
-    #         data = self.request_token(api_origin, api_secret, corp_id)
-    #         if data['errcode'] != 0:
-    #             raise PluginError("invalid wechat token response: %s" % data)
-    #         self.access_token = {
-    #             'token': data['access_token'],
-    #             'expires': datetime.now() + timedelta(seconds = data['expires_in'])
-    #         }
-    #     return self.access_token['token']
+    def get_token(self, api_origin, api_secret, corp_id):
+        if (not self.access_token) or self.access_token['expires'] < datetime.now():
+            data = self.request_token(api_origin, api_secret, corp_id)
+            if data['errcode'] != 0:
+                raise PluginError("invalid wechat token response: %s" % data)
+            self.access_token = {
+                'token': data['access_token'],
+                'expires': datetime.now() + timedelta(seconds = data['expires_in'])
+            }
+        return self.access_token['token']
 
     def build_message(self, group, event):
         the_tags = defaultdict(lambda: '[NA]')
@@ -149,31 +149,29 @@ class WxworkNotificationsPlugin(notify.NotificationPlugin):
             }
         }
 
-    # def build_url(self, project):
-    #     api_origin = self.get_option('api_origin', project)
-    #     api_secret = self.get_option('api_secret', project)
-    #     corp_id = self.get_option('corp_id', project)
+    def build_url(self, project):
+        api_origin = self.get_option('api_origin', project)
+        api_secret = self.get_option('api_secret', project)
+        corp_id = self.get_option('corp_id', project)
         
-    #     token = self.get_token(api_origin, api_secret, corp_id)
+        token = self.get_token(api_origin, api_secret, corp_id)
 
-    #     return '%s/message/send?access_token=%s' % (api_origin, token)
+        return '%s/message/send?access_token=%s' % (api_origin, token)
 
     # https://work.weixin.qq.com/api/doc/90000/90135/90236
     def send_message(self, payload, project):
-        ############ JSON #############
-        # to_user = self.get_option('to_user', project)
-        # to_party = self.get_option('to_party', project)
-        # to_tag = self.get_option('to_tag', project)
+        to_user = self.get_option('to_user', project)
+        to_party = self.get_option('to_party', project)
+        to_tag = self.get_option('to_tag', project)
 
-        # payload['agentid'] = self.get_option('agent_id', project)
+        payload['agentid'] = self.get_option('agent_id', project)
 
-        # if to_user:
-        #     payload['touser'] = to_user
-        # if to_party:
-        #     payload['toparty'] = to_party
-        # if to_tag:
-        #     payload['totag'] = to_tag
-        ######### JSON DONE ###########
+        if to_user:
+            payload['touser'] = to_user
+        if to_party:
+            payload['toparty'] = to_party
+        if to_tag:
+            payload['totag'] = to_tag
 
         # self.logger.debug('Sending message to user: %s, party: %s, tag: %s ' % (to_user, to_party, to_tag))
         # response = safe_urlopen(method='POST', url=self.build_url(project), json=payload)
@@ -186,19 +184,19 @@ class WxworkNotificationsPlugin(notify.NotificationPlugin):
         safe_urlopen(method='POST', url=api_origin, json=payload)
 
     # https://work.weixin.qq.com/api/doc/90000/90136/91770
-    # def send_webhook(self, payload, webhook, project):
-    #     self.logger.debug('Sending webhook to url: %s ' % webhook)
-    #     response = safe_urlopen(method='POST', url=webhook, json=payload)
-    #     self.logger.debug('Response code: %s, content: %s' % (response.status_code, response.content))
+    def send_webhook(self, payload, webhook, project):
+        self.logger.debug('Sending webhook to url: %s ' % webhook)
+        response = safe_urlopen(method='POST', url=webhook, json=payload)
+        self.logger.debug('Response code: %s, content: %s' % (response.status_code, response.content))
 
     def notify_users(self, group, event, fail_silently=False, **kwargs):
         self.logger.debug('Received notification for event: %s' % event)
 
-        # project = group.project
+        project = group.project
         payload = self.build_message(group, event)
         self.logger.debug('Built payload: %s' % payload)
         safe_execute(self.send_message, payload, group.project, _with_transaction=False)
 
-        # to_webhook = self.get_option('to_webhook', project)
-        # if to_webhook:
-        #     safe_execute(self.send_webhook, payload, to_webhook, project, _with_transaction=False)
+        to_webhook = self.get_option('to_webhook', project)
+        if to_webhook:
+            safe_execute(self.send_webhook, payload, to_webhook, project, _with_transaction=False)
