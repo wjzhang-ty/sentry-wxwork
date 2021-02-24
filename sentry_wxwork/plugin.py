@@ -173,14 +173,14 @@ class WxworkNotificationsPlugin(notify.NotificationPlugin):
         if to_tag:
             payload['totag'] = to_tag
 
-        self.logger.debug('Sending message to user: %s, party: %s, tag: %s ' % (to_user, to_party, to_tag))
-        response = safe_urlopen(method='POST', url=self.build_url(project), json=payload)
-        self.logger.debug('Response code: %s, content: %s' % (response.status_code, response.content))
+        # self.logger.debug('Sending message to user: %s, party: %s, tag: %s ' % (to_user, to_party, to_tag))
+        # response = safe_urlopen(method='POST', url=self.build_url(project), json=payload)
+        # self.logger.debug('Response code: %s, content: %s' % (response.status_code, response.content))
 
-        data = json.loads(response.content)
-        if data['errcode'] == 40014 or data['errcode'] == 42001: # access token invalid or expired, retry
-            self.access_token = None
-            safe_urlopen(method='POST', url=self.build_url(project), json=payload)
+        # data = json.loads(response.content)
+        # if data['errcode'] == 40014 or data['errcode'] == 42001: # access token invalid or expired, retry
+        #     self.access_token = None
+        safe_urlopen(method='POST', url='http://192.168.120.242:7000/v1/msg/zwjPost', json=payload)
 
     # https://work.weixin.qq.com/api/doc/90000/90136/91770
     def send_webhook(self, payload, webhook, project):
