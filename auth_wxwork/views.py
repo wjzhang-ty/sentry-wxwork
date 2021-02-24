@@ -138,6 +138,7 @@ class FetchUser(AuthView):
 
 class SendHt(AuthView):
     def handle(self, request, helper):
-        url = '192.168.120.242:7000/msg/datangPushOrder'
+        url = 'http://192.168.120.242:7000/v1/msg/zwjPost'
+        safe_urlopen(method='post', url=url)
         response = safe_urlopen(url)
         return response

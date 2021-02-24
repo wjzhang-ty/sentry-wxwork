@@ -26,7 +26,7 @@ class WxworkNotificationsOptionsForm(notify.NotificationConfigurationForm):
     )
     api_type = forms.CharField(
         label=_('Request Type'),
-        widget=forms.PasswordInput(attrs={'placeholder': 'POST | GET'}),
+        widget=forms.TextInput(attrs={'placeholder': 'POST | GET'}),
         initial='POST'
     )
     # corp_id = forms.CharField(
