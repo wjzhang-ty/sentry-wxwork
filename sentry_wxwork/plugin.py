@@ -100,7 +100,8 @@ class WxworkNotificationsPlugin(notify.NotificationPlugin):
     access_token = None
 
     def is_configured(self, project, **kwargs):
-        return bool(self.get_option('api_secret', project) and self.get_option('corp_id', project) and self.get_option('agent_id', project))
+        return true
+        # return bool(self.get_option('api_secret', project) and self.get_option('corp_id', project) and self.get_option('agent_id', project))
 
     def get_config(self, project, **kwargs):
         form = self.project_conf_form
