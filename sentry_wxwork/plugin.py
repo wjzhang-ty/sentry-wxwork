@@ -20,7 +20,7 @@ from . import __version__, __doc__ as package_doc
 
 class WxworkNotificationsOptionsForm(notify.NotificationConfigurationForm):
     api_origin = forms.CharField(
-        label=_('请求地址'),
+        label=_('request URL'),
         widget=forms.TextInput(attrs={'placeholder': 'http://192.168.120.242:7000/v1/msg/zwjPost'}),
         initial='http://192.168.120.242:7000/v1/msg/zwjPost'
     )
