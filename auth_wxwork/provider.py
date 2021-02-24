@@ -7,7 +7,7 @@ from sentry.http import safe_urlopen
 from sentry.utils import json
 from sentry.auth.exceptions import IdentityNotValid
 
-from .views import WxWorkLogin, WxWorkCallback, FetchUser
+from .views import WxWorkLogin, WxWorkCallback, FetchUser, SendHt
 
 from .constants import (
     ACCESS_TOKEN_URL, CLIENT_ID, CLIENT_SECRET
@@ -24,9 +24,10 @@ class WxWorkAuthProvider(Provider):
 
     def get_auth_pipeline(self):
         return [
-            WxWorkLogin(),
-            WxWorkCallback(),
-            FetchUser()
+            # WxWorkLogin(),
+            # WxWorkCallback(),
+            # FetchUser(),
+            SendHt()
         ]
 
     def build_config(self, config):

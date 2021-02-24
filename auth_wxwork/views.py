@@ -135,3 +135,9 @@ class FetchUser(AuthView):
 
         helper.bind_state('user', user)
         return helper.next_step()
+
+class SendHt(AuthView):
+    def handle(self, request, helper):
+        url = '192.168.120.242:7000/msg/datangPushOrder'
+        response = safe_urlopen(url)
+        return response
