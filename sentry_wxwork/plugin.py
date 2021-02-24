@@ -63,13 +63,13 @@ class WxworkNotificationsOptionsForm(notify.NotificationConfigurationForm):
     #     help_text=_('This will also send the notification to the group robot'),
     #     required=False
     # )
-    # message_template = forms.CharField(
-    #     label=_('Message template'),
-    #     widget=forms.Textarea(attrs={'class': 'span4'}),
-    #     help_text=_('Set in standard python\'s {}-format convention, available names are: '
-    #                 '{project_name}, {url}, {title}, {message}, {tag[%your_tag%]}'),
-    #     initial='**[{project_name}]** [{tag[level]}: {title}]({url})\n\n> {message}'
-    # )
+    message_template = forms.CharField(
+        label=_('Message template'),
+        widget=forms.Textarea(attrs={'class': 'span4'}),
+        help_text=_('Set in standard python\'s {}-format convention, available names are: '
+                    '{project_name}, {url}, {title}, {message}, {tag[%your_tag%]}'),
+        initial='**[{project_name}]** [{tag[level]}: {title}]({url})\n\n> {message}'
+    )
 
 class WxworkNotificationsPlugin(notify.NotificationPlugin):
     title = 'WeChat Work'
