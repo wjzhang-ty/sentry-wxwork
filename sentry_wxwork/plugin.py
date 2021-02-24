@@ -185,10 +185,13 @@ class WxworkNotificationsPlugin(notify.NotificationPlugin):
         safe_urlopen(method=api_type, url=api_origin, json=payload)
 
     # https://work.weixin.qq.com/api/doc/90000/90136/91770
-    # def send_webhook(self, payload, webhook, project):
-    #     self.logger.debug('Sending webhook to url: %s ' % webhook)
-    #     response = safe_urlopen(method='POST', url=webhook, json=payload)
-    #     self.logger.debug('Response code: %s, content: %s' % (response.status_code, response.content))
+    def send_webhook(self, payload, webhook, project):
+        self.logger.debug('Sending webhook to url: %s ' % webhook)
+        api_origin = self.get_option('api_origin', project)
+        api_type = self.get_option('api_type', project)
+        response = safe_urlopen(method=api_type, url=api_origin, json=payload)
+        # response = safe_urlopen(method='POST', url=webhook, json=payload)
+        self.logger.debug('Response code: %s, content: %s' % (response.status_code, response.content))
 
     def notify_users(self, group, event, fail_silently=False, **kwargs):
         self.logger.debug('Received notification for event: %s' % event)
@@ -198,6 +201,6 @@ class WxworkNotificationsPlugin(notify.NotificationPlugin):
         self.logger.debug('Built payload: %s' % payload)
         safe_execute(self.send_message, payload, group.project, _with_transaction=False)
 
-        # to_webhook = self.get_option('to_webhook', project)
-        # if to_webhook:
-        #     safe_execute(self.send_webhook, payload, to_webhook, project, _with_transaction=False)
+        to_webhook = self.get_option('to_webhook', project)
+        if to_webhook:
+            safe_execute(self.send_webhook, payload, to_webhook, project, _with_transaction=False)
