@@ -20,15 +20,15 @@ from . import __version__, __doc__ as package_doc
 
 class WxworkNotificationsOptionsForm(notify.NotificationConfigurationForm):
     api_origin = forms.CharField(
-        label=_('request URL'),
+        label=_('Request URL'),
         widget=forms.TextInput(attrs={'placeholder': 'http://192.168.120.242:7000/v1/msg/zwjPost'}),
         initial='http://192.168.120.242:7000/v1/msg/zwjPost'
     )
-    # api_secret = forms.CharField(
-    #     label=_('API secret'),
-    #     widget=forms.PasswordInput(attrs={'placeholder': 'vQT_03RDVA3uE6JDASDASDAiXUvccqV8mDgLdLI'}),
-    #     initial=getattr(settings, 'WXWORK_SECRET', None)
-    # )
+    api_type = forms.CharField(
+        label=_('Request Type'),
+        widget=forms.PasswordInput(attrs={'placeholder': 'POST | GET'}),
+        initial='POST'
+    )
     # corp_id = forms.CharField(
     #     label=_('Corp ID'),
     #     widget=forms.TextInput(attrs={'placeholder': 'wwabcddzxdkrsdv'}),
@@ -181,7 +181,8 @@ class WxworkNotificationsPlugin(notify.NotificationPlugin):
         # if data['errcode'] == 40014 or data['errcode'] == 42001: # access token invalid or expired, retry
         #     self.access_token = None
         api_origin = self.get_option('api_origin', project)
-        safe_urlopen(method='POST', url=api_origin, json=payload)
+        api_type = self.get_option('api_type', project)
+        safe_urlopen(method=api_type, url=api_origin, json=payload)
 
     # https://work.weixin.qq.com/api/doc/90000/90136/91770
     # def send_webhook(self, payload, webhook, project):
