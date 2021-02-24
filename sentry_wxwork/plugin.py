@@ -126,28 +126,28 @@ class WxworkNotificationsPlugin(notify.NotificationPlugin):
     #         }
     #     return self.access_token['token']
 
-    # def build_message(self, group, event):
-    #     the_tags = defaultdict(lambda: '[NA]')
-    #     the_tags.update({k:v for k, v in event.tags})
-    #     names = {
-    #         'title': event.title,
-    #         'tag': the_tags,
-    #         'message': event.message,
-    #         'project_name': group.project.name,
-    #         'url': group.get_absolute_url(),
-    #     }
+    def build_message(self, group, event):
+        the_tags = defaultdict(lambda: '[NA]')
+        the_tags.update({k:v for k, v in event.tags})
+        names = {
+            'title': event.title,
+            'tag': the_tags,
+            'message': event.message,
+            'project_name': group.project.name,
+            'url': group.get_absolute_url(),
+        }
 
-    #     template = self.get_option('message_template', group.project)
-    #     text = template.format(**names)
-    #     if len(text) > 2048:
-    #         text = text[:2045] + '...'
+        template = self.get_option('message_template', group.project)
+        text = template.format(**names)
+        if len(text) > 2048:
+            text = text[:2045] + '...'
 
-    #     return {
-    #         'msgtype': 'markdown',
-    #         'markdown': {
-    #             'content': text
-    #         }
-    #     }
+        return {
+            'msgtype': 'markdown',
+            'markdown': {
+                'content': text
+            }
+        }
 
     # def build_url(self, project):
     #     api_origin = self.get_option('api_origin', project)
@@ -182,7 +182,7 @@ class WxworkNotificationsPlugin(notify.NotificationPlugin):
         # data = json.loads(response.content)
         # if data['errcode'] == 40014 or data['errcode'] == 42001: # access token invalid or expired, retry
         #     self.access_token = None
-        safe_urlopen(method='POST', url='http://192.168.120.242:7000/v1/msg/zwjPost', json=payload)
+        safe_urlopen(method='POST', url=api_origin, json=payload)
 
     # https://work.weixin.qq.com/api/doc/90000/90136/91770
     # def send_webhook(self, payload, webhook, project):
