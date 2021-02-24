@@ -182,6 +182,7 @@ class WxworkNotificationsPlugin(notify.NotificationPlugin):
         # data = json.loads(response.content)
         # if data['errcode'] == 40014 or data['errcode'] == 42001: # access token invalid or expired, retry
         #     self.access_token = None
+        api_origin = self.get_option('api_origin', project)
         safe_urlopen(method='POST', url=api_origin, json=payload)
 
     # https://work.weixin.qq.com/api/doc/90000/90136/91770
