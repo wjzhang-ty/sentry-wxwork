@@ -29,6 +29,11 @@ class WxworkNotificationsOptionsForm(notify.NotificationConfigurationForm):
         widget=forms.TextInput(attrs={'placeholder': 'POST | GET'}),
         initial='POST'
     )
+    api_url = forms.CharField(
+        label=_('Sentry URL'),
+        widget=forms.TextInput(attrs={'placeholder': 'sentry web url for bugger'}),
+        initial='http://192.168.120.140:9000/'
+    )
     # corp_id = forms.CharField(
     #     label=_('Corp ID'),
     #     widget=forms.TextInput(attrs={'placeholder': 'wwabcddzxdkrsdv'}),
@@ -128,27 +133,29 @@ class WxworkNotificationsPlugin(notify.NotificationPlugin):
     #         }
     #     return self.access_token['token']
 
-    def build_message(self, group, event):
-        the_tags = defaultdict(lambda: '[NA]')
-        the_tags.update({k:v for k, v in event.tags})
-        names = {
-            'title': event.title,
-            'tag': the_tags,
-            'message': event.message,
-            'project_name': group.project.name,
-            'url': group.get_absolute_url(),
-        }
+    def build_message(self, group, event, project):
+        # the_tags = defaultdict(lambda: '[NA]')
+        # the_tags.update({k:v for k, v in event.tags})
+        # names = {
+        #     'title': event.title,
+        #     'tag': the_tags,
+        #     'message': event.message,
+        #     'project_name': group.project.name,
+        #     'url': group.get_absolute_url(),
+        # }
 
-        template = self.get_option('message_template', group.project)
-        text = template.format(**names)
-        if len(text) > 2048:
-            text = text[:2045] + '...'
+        # template = self.get_option('message_template', group.project)
+        # text = template.format(**names)
+        # if len(text) > 2048:
+        #     text = text[:2045] + '...'
 
+        api_url = self.get_option('api_url', project)
         return {
-            'msgtype': 'markdown',
-            'markdown': {
-                'content': text
-            }
+            'system': 'Sentry',
+            'title': event.title,
+            'projectName': group.project.name,
+            'url': group.get_absolute_url(),
+            'sentryURL': api_url
         }
 
     # def build_url(self, project):
@@ -199,7 +206,7 @@ class WxworkNotificationsPlugin(notify.NotificationPlugin):
         self.logger.debug('Received notification for event: %s' % event)
 
         project = group.project
-        payload = self.build_message(group, event)
+        payload = self.build_message(group, event, project)
         self.logger.debug('Built payload: %s' % payload)
         safe_execute(self.send_message, payload, group.project, _with_transaction=False)
 
