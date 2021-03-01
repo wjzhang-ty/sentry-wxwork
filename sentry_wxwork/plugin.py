@@ -22,7 +22,7 @@ from . import __version__, __doc__ as package_doc
 class WxworkNotificationsOptionsForm(notify.NotificationConfigurationForm):
     api_origin = forms.CharField(
         label=_('Request URL'),
-        widget=forms.TextInput(attrs={'placeholder': getattr(settings, 'REQ_URL', None)}),
+        widget=forms.TextInput(attrs={'placeholder': 'http:xxxx'),
         initial= getattr(settings, 'REQ_URL', None)
     )
     api_type = forms.CharField(
