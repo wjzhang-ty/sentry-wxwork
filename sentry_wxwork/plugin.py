@@ -22,8 +22,8 @@ from . import __version__, __doc__ as package_doc
 class WxworkNotificationsOptionsForm(notify.NotificationConfigurationForm):
     api_origin = forms.CharField(
         label=_('Request URL'),
-        widget=forms.TextInput(attrs={'placeholder': 'http://192.168.120.242:7000/v1/msg/zwjPost'}),
-        initial='http://192.168.120.242:7000/v1/msg/zwjPost'
+        widget=forms.TextInput(attrs={'placeholder': getattr(settings, 'REQ_URL', None)}),
+        initial= getattr(settings, 'REQ_URL', None)
     )
     api_type = forms.CharField(
         label=_('Request Type'),
