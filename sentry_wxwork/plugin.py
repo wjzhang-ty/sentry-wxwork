@@ -33,7 +33,7 @@ class WxworkNotificationsOptionsForm(notify.NotificationConfigurationForm):
     api_url = forms.CharField(
         label=_('Sentry URL'),
         widget=forms.TextInput(attrs={'placeholder': 'sentry web url for bugger'}),
-        initial='http://192.168.120.140:9000/'
+        initial='http://221.238.155.34:12000/sentry/'
     )
     message_template = forms.CharField(
         label=_('Message template'),
@@ -86,7 +86,9 @@ class WxworkNotificationsPlugin(notify.NotificationPlugin):
             'title': event.title,
             'projectName': group.project.name,
             'url': group.get_absolute_url(),
-            'sentryURL': api_url
+            'sentryURL': api_url,
+            'group': group,
+            'event': event
         }
 
     # 发消息
