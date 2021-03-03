@@ -1,5 +1,6 @@
 # coding: utf-8
 import logging
+import json
 from datetime import datetime, timedelta
 from collections import defaultdict
 
@@ -87,8 +88,8 @@ class WxworkNotificationsPlugin(notify.NotificationPlugin):
             'projectName': group.project.name,
             'url': group.get_absolute_url(),
             'sentryURL': api_url,
-            'group': group,
-            'event': event
+            'group': json.dumps(group),
+            'event': json.dumps(event)
         }
 
     # 发消息
